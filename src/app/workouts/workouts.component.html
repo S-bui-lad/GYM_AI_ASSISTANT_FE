@@ -39,7 +39,10 @@
                   <mat-icon class="field-icon">fitness_center</mat-icon>
                   Phòng Gym
                 </mat-label>
-                <input matInput [(ngModel)]="form.gym" name="gymId" placeholder="Nhập ID phòng gym" />
+                <mat-select [(ngModel)]="form.gym" name="gymId" placeholder="Chọn phòng gym" (selectionChange)="onGymChange($event.value)">
+                  <mat-option [value]="''" disabled>Chọn phòng gym</mat-option>
+                  <mat-option *ngFor="let g of gyms" [value]="g._id">{{ g.name }}</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </div>
@@ -51,7 +54,10 @@
                   <mat-icon class="field-icon">build</mat-icon>
                   Thiết Bị
                 </mat-label>
-                <input matInput [(ngModel)]="form.items[0].equipment" name="eqId" placeholder="Nhập ID thiết bị" />
+                <mat-select [(ngModel)]="form.items[0].equipment" name="eqId" placeholder="Chọn thiết bị" [disabled]="!equipment.length">
+                  <mat-option [value]="''" disabled>Chọn thiết bị</mat-option>
+                  <mat-option *ngFor="let e of equipment" [value]="e._id">{{ e.name || e._id }}</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </div>
@@ -125,6 +131,10 @@
             </div>
             <div class="workout-status">
               <span class="status-badge completed">Hoàn thành</span>
+              <button mat-stroked-button color="primary" (click)="openDetail(workout._id)">
+                <mat-icon>visibility</mat-icon>
+                Xem chi tiết
+              </button>
             </div>
           </div>
 
@@ -163,4 +173,40 @@
       </div>
     </div>
   </div>
+
+  <ng-template #workoutDetailTpl>
+    <div class="detail-dialog">
+      <h2 mat-dialog-title>
+        <mat-icon>visibility</mat-icon>
+        Chi tiết buổi tập
+      </h2>
+      <div mat-dialog-content *ngIf="selectedWorkout as d">
+        <div class="detail-section">
+          <h3>Phòng Gym</h3>
+          <ng-container *ngIf="d.gym as g; else noGymTpl">
+            <p><strong>Tên:</strong> {{ (g?.name) || g }}</p>
+            <p *ngIf="g?.address"><strong>Địa chỉ:</strong> {{ g?.address }}</p>
+          </ng-container>
+          <ng-template #noGymTpl>
+            <p><em>Chưa gắn phòng gym cho buổi tập này</em></p>
+          </ng-template>
+          <p><strong>Thời gian:</strong> {{ d.startedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+        <div class="detail-section">
+          <h3>Bài tập ({{ d.items?.length || 0 }})</h3>
+          <div class="exercise-item" *ngFor="let it of d.items">
+            <div class="exercise-name"><strong>{{ it.equipment?.name || it.equipment }}</strong></div>
+            <div class="exercise-meta">
+              <span>Hiệp: {{ it.sets }}</span>
+              <span>Lặp: {{ it.reps }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-actions align="end">
+        <button mat-button (click)="closeDetail()">Đóng</button>
+      </div>
+    </div>
+  </ng-template>
+
 </div>

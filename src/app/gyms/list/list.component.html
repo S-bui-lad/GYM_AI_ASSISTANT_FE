@@ -86,11 +86,11 @@
             <mat-icon>build</mat-icon>
             Xem Thiết Bị
           </button>
-          <button mat-stroked-button color="accent" class="action-btn">
+          <button mat-stroked-button color="accent" class="action-btn" (click)="openEdit(gym)">
             <mat-icon>edit</mat-icon>
             Chỉnh Sửa
           </button>
-          <button mat-stroked-button color="warn" class="action-btn">
+          <button mat-stroked-button color="warn" class="action-btn" (click)="deleteGym(gym)">
             <mat-icon>delete</mat-icon>
             Xóa
           </button>
@@ -118,3 +118,29 @@
     </div>
   </div>
 </div>
+
+<ng-template #gymEditTpl>
+  <h2 mat-dialog-title>
+    <mat-icon>edit</mat-icon>
+    Chỉnh sửa Gym
+  </h2>
+  <div mat-dialog-content *ngIf="selectedGym as g">
+    <div class="gym-summary" style="margin-bottom: 12px;">
+      <p><strong>Tên hiện tại:</strong> {{ g.name }}</p>
+      <p><strong>Địa chỉ hiện tại:</strong> {{ g.address || 'Chưa có' }}</p>
+      <p><strong>Cập nhật lúc:</strong> {{ g.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; margin-top: 8px;">
+      <mat-label>Tên</mat-label>
+      <input matInput [(ngModel)]="g.name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%; margin-top: 12px;">
+      <mat-label>Địa chỉ</mat-label>
+      <input matInput [(ngModel)]="g.address" />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeEdit()">Hủy</button>
+    <button mat-raised-button color="primary" (click)="saveEdit()">Cập nhật</button>
+  </div>
+</ng-template>

@@ -47,4 +47,37 @@ export class TokenService {
     s.removeItem(this.TOKEN_KEY);
     s.removeItem(this.REFRESH_KEY);
   }
+
+  getUserId(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      const payload = JSON.parse(this.base64UrlDecode(parts[1]));
+      return payload?.sub || payload?.userId || payload?.id || null;
+    } catch {
+      return null;
+    }
+  }
+
+  private base64UrlDecode(input: string): string {
+    // Replace URL-safe chars
+    let base64 = input.replace(/-/g, '+').replace(/_/g, '/');
+    // Pad with '='
+    const pad = base64.length % 4;
+    if (pad) {
+      base64 += '='.repeat(4 - pad);
+    }
+    try {
+      return decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+    } catch {
+      return atob(base64);
+    }
+  }
 }

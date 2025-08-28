@@ -14,6 +14,10 @@
           <mat-icon>{{ loading ? 'hourglass_empty' : 'lightbulb' }}</mat-icon>
           {{ loading ? 'Đang xử lý...' : 'Lấy Gợi Ý' }}
         </button>
+        <button mat-stroked-button color="primary" class="get-recommendations-btn" (click)="loadAdvice()" [disabled]="loading">
+          <mat-icon>insights</mat-icon>
+          Tư Vấn Bài Tập
+        </button>
       </div>
     </div>
   </div>
@@ -21,17 +25,27 @@
   <!-- Main Content -->
   <div class="main-content">
     <!-- Input Section -->
-    <div class="input-section">
+    <!-- <div class="input-section">
       <div class="input-card">
         <div class="input-header">
           <h2 class="input-title">
             <mat-icon>settings</mat-icon>
             Tùy Chọn Gợi Ý
           </h2>
-          <p class="input-subtitle">Chọn phòng gym để nhận gợi ý phù hợp hơn</p>
+          <p class="input-subtitle">Nhập User ID để lấy gợi ý và tư vấn theo người dùng, hoặc chọn gym để gợi ý phù hợp hơn</p>
         </div>
 
         <div class="input-form">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>
+                <mat-icon class="field-icon">person</mat-icon>
+                User ID (Ưu tiên)
+              </mat-label>
+              <input matInput [(ngModel)]="userId" name="userId" [readonly]="!!userId" placeholder="Ví dụ: 68aebc6f3abb6b00ffe2efc3" />
+              <mat-hint>Nếu nhập User ID, hệ thống sẽ dùng để lấy gợi ý</mat-hint>
+            </mat-form-field>
+          </div>
           <div class="form-group">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>
@@ -44,75 +58,136 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Recommendations Section -->
     <div class="recommendations-section">
-      <div class="section-header">
+      
+      <!-- Advice Panel -->
+      <div class="advice-panel" *ngIf="advice?.advice">
         <h2 class="section-title">
-          <mat-icon>recommend</mat-icon>
-          Gợi Ý Thiết Bị & Bài Tập
+          <mat-icon>insights</mat-icon>
+          Tư Vấn Luyện Tập Cá Nhân
         </h2>
-        <div class="stats-summary" *ngIf="recs.length">
-          <div class="stat-item">
-            <span class="stat-number">{{ recs.length }}</span>
-            <span class="stat-label">Gợi ý</span>
+        <div class="advice-summary">
+          <div class="summary-item">
+            <mat-icon>show_chart</mat-icon>
+            <div>
+              <div class="summary-label">Xu hướng</div>
+              <div class="summary-text">{{ advice.advice.summary?.trend }}</div>
+            </div>
           </div>
-          <div class="stat-item">
-            <span class="stat-number">{{ getUniqueCategories() }}</span>
-            <span class="stat-label">Danh mục</span>
+          <div class="summary-item">
+            <mat-icon>whatshot</mat-icon>
+            <div>
+              <div class="summary-label">Cường độ</div>
+              <div class="summary-text">{{ advice.advice.summary?.intensity }}</div>
+            </div>
           </div>
-          <div class="stat-item">
-            <span class="stat-number">{{ getUniqueBrands() }}</span>
-            <span class="stat-label">Thương hiệu</span>
+          <div class="summary-item" *ngIf="advice.countAnalyzed >= 0">
+            <mat-icon>analytics</mat-icon>
+            <div>
+              <div class="summary-label">Số buổi phân tích</div>
+              <div class="summary-text">{{ advice.countAnalyzed }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="advice-columns">
+          <div class="column">
+            <h3><mat-icon>thumb_up</mat-icon> Điểm mạnh</h3>
+            <ul>
+              <li *ngFor="let s of advice.advice.strengths_risks?.strengths">{{ s }}</li>
+            </ul>
+          </div>
+          <div class="column">
+            <h3><mat-icon>warning_amber</mat-icon> Rủi ro</h3>
+            <ul>
+              <li *ngFor="let r of advice.advice.strengths_risks?.risks">{{ r }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="plan-section" *ngIf="advice.advice.plan">
+          <h3><mat-icon>flag</mat-icon> Mục tiêu: {{ advice.advice.plan.goal }}</h3>
+          <div class="goal-chips" *ngIf="getGoalDetails().length">
+            <span class="chip" *ngFor="let chip of getGoalDetails()">{{ chip }}</span>
+          </div>
+          <div class="weekly-plan">
+            <div class="day-card" *ngFor="let d of advice.advice.plan.weeklyPlan">
+              <div class="day-header">
+                <div class="day-title">{{ d.day }}</div>
+                <div class="day-focus">{{ d.focus }}</div>
+              </div>
+              <div class="exercises">
+                <div class="exercise" *ngFor="let ex of d.exercises">
+                  <mat-icon class="exercise-dot">chevron_right</mat-icon>
+                  <div class="exercise-body">
+                    <div class="exercise-title">{{ ex.equipment }}</div>
+                    <div class="exercise-meta">
+                      <span *ngIf="ex.sets">{{ ex.sets }} sets</span>
+                      <span *ngIf="ex.reps">x {{ ex.reps }} reps</span>
+                      <span *ngIf="ex.duration_minutes">· {{ ex.duration_minutes }} phút</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recovery-monitor">
+            <div class="recovery" *ngIf="advice.advice.plan.recovery">
+              <h4><mat-icon>self_improvement</mat-icon> Phục hồi</h4>
+              <div class="recovery-content">
+                <div><strong>Nghỉ:</strong> {{ advice.advice.plan.recovery.rest_days }} ngày/tuần</div>
+                <div><strong>Active recovery:</strong> {{ advice.advice.plan.recovery.active_recovery?.join(', ') }}</div>
+                <div><strong>Ngủ:</strong> {{ advice.advice.plan.recovery.sleep }}</div>
+              </div>
+            </div>
+            <div class="monitoring" *ngIf="advice.advice.plan.monitoring">
+              <h4><mat-icon>monitor_heart</mat-icon> Theo dõi</h4>
+              <div class="monitoring-content">
+                <div><strong>Tiến độ:</strong> {{ advice.advice.plan.monitoring.progress_tracking }}</div>
+                <div><strong>Dấu hiệu chấn thương:</strong> {{ advice.advice.plan.monitoring.injury_signs }}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <!-- Recommendations List -->
-      <div class="recommendations-list" *ngIf="recs.length">
-        <div class="recommendation-card" *ngFor="let rec of recs; trackBy: trackByRecommendationId">
+      <div class="recommendations-list" *ngIf="(recs.length || planRecs.length)">
+        <!-- Derived from weekly plan -->
+        <div class="recommendation-card" *ngFor="let rec of planRecs; trackBy: trackByRecommendationId">
           <div class="recommendation-header">
-            <div class="recommendation-icon">🎯</div>
+            <div class="recommendation-icon">📅</div>
             <div class="recommendation-info">
               <h3 class="recommendation-name">{{ rec.name }}</h3>
               <div class="recommendation-meta">
                 <span class="category-tag">{{ rec.category }}</span>
-                <span class="brand-tag">{{ rec.brand }}</span>
+                <span class="brand-tag" *ngIf="rec.day">{{ rec.day }} - {{ rec.focus }}</span>
               </div>
             </div>
             <div class="recommendation-score">
               <div class="score-circle">
-                <span class="score-number">{{ getRecommendationScore(rec) }}</span>
-                <span class="score-label">Điểm</span>
+                <span class="score-number">{{ rec.sets && rec.reps ? (rec.sets*rec.reps) : (rec.duration_minutes || 30) }}</span>
+                <span class="score-label">{{ rec.sets && rec.reps ? 'Khối lượng' : 'Phút' }}</span>
               </div>
             </div>
           </div>
 
           <div class="recommendation-details">
-            <div class="detail-item">
-              <mat-icon>category</mat-icon>
-              <span>Danh mục: {{ rec.category }}</span>
+            <div class="detail-item" *ngIf="rec.sets || rec.reps">
+              <mat-icon>fitness_center</mat-icon>
+              <span>Khuyến nghị: {{ rec.sets || '-' }} sets x {{ rec.reps || '-' }} reps</span>
             </div>
-            <div class="detail-item">
-              <mat-icon>business</mat-icon>
-              <span>Thương hiệu: {{ rec.brand }}</span>
+            <div class="detail-item" *ngIf="rec.duration_minutes">
+              <mat-icon>timer</mat-icon>
+              <span>Thời lượng: {{ rec.duration_minutes }} phút</span>
             </div>
-            <div class="detail-item" *ngIf="rec.description">
-              <mat-icon>description</mat-icon>
-              <span>{{ rec.description }}</span>
+            <div class="detail-item" *ngIf="rec.support">
+              <mat-icon>tips_and_updates</mat-icon>
+              <span>{{ rec.support }}</span>
             </div>
-          </div>
-
-          <div class="recommendation-actions">
-            <button mat-stroked-button color="primary" class="action-btn">
-              <mat-icon>visibility</mat-icon>
-              Xem Chi Tiết
-            </button>
-            <button mat-stroked-button color="accent" class="action-btn">
-              <mat-icon>favorite_border</mat-icon>
-              Lưu Gợi Ý
-            </button>
           </div>
         </div>
       </div>
