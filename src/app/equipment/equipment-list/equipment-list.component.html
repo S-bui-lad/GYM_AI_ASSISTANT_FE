@@ -1,0 +1,119 @@
+<div class="equipment-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">build</mat-icon>
+          Quản Lý Thiết Bị
+        </h1>
+        <p class="page-subtitle">Quản lý và theo dõi tất cả thiết bị trong hệ thống</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" class="add-btn" (click)="goAdd()">
+          <mat-icon>add_a_photo</mat-icon>
+          Thêm Bằng Ảnh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Stats Cards -->
+    <div class="stats-section" *ngIf="items.length">
+      <div class="stat-card">
+        <div class="stat-icon">⚙️</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ items.length }}</h3>
+          <p class="stat-label">Tổng Thiết Bị</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📸</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ getItemsWithImages() }}</h3>
+          <p class="stat-label">Có Hình Ảnh</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏷️</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ getUniqueCategories() }}</h3>
+          <p class="stat-label">Danh Mục</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Equipment List -->
+    <div class="equipment-list" *ngIf="items.length">
+      <div class="equipment-card" *ngFor="let item of items; trackBy: trackByEquipmentId">
+        <div class="equipment-image">
+          <img *ngIf="item.images?.length" [src]="item.images[0]" [alt]="item.name" />
+          <div *ngIf="!item.images?.length" class="no-image">
+            <mat-icon>image</mat-icon>
+            <span>Chưa có hình</span>
+          </div>
+        </div>
+        
+        <div class="equipment-content">
+          <div class="equipment-header">
+            <h3 class="equipment-name">{{ item.name }}</h3>
+            <div class="equipment-status">
+              <span class="status-badge active">Hoạt động</span>
+            </div>
+          </div>
+
+          <div class="equipment-meta">
+            <div class="meta-item">
+              <mat-icon>category</mat-icon>
+              <span>{{ item.category || 'Chưa phân loại' }}</span>
+            </div>
+            <div class="meta-item">
+              <mat-icon>business</mat-icon>
+              <span>{{ item.brand || 'Chưa có thương hiệu' }}</span>
+            </div>
+            <div class="meta-item" *ngIf="item.description">
+              <mat-icon>description</mat-icon>
+              <span>{{ item.description }}</span>
+            </div>
+          </div>
+
+          <div class="equipment-actions">
+            <button mat-stroked-button color="primary" class="action-btn">
+              <mat-icon>visibility</mat-icon>
+              Xem Chi Tiết
+            </button>
+            <button mat-stroked-button color="accent" class="action-btn">
+              <mat-icon>edit</mat-icon>
+              Chỉnh Sửa
+            </button>
+            <button mat-stroked-button color="warn" class="action-btn">
+              <mat-icon>delete</mat-icon>
+              Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!items.length && !loading">
+      <div class="empty-icon">⚙️</div>
+      <h3 class="empty-title">Chưa có thiết bị nào</h3>
+      <p class="empty-description">
+        Bắt đầu bằng cách thêm thiết bị đầu tiên để quản lý hệ thống
+      </p>
+      <button mat-raised-button color="primary" class="empty-action" (click)="goAdd()">
+        <mat-icon>add_a_photo</mat-icon>
+        Thêm Thiết Bị Đầu Tiên
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="loading-text">Đang tải danh sách thiết bị...</p>
+    </div>
+  </div>
+</div>

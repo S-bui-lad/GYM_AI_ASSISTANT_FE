@@ -1,0 +1,116 @@
+<div class="gym-list-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">fitness_center</mat-icon>
+          Danh Sách Phòng Gym
+        </h1>
+        <p class="page-subtitle">Quản lý và theo dõi các phòng gym của bạn</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" class="add-btn" (click)="goAdd()">
+          <mat-icon>add</mat-icon>
+          Thêm Gym Mới
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Stats Cards -->
+    <div class="stats-section" *ngIf="gyms.length">
+      <div class="stat-card">
+        <div class="stat-icon">🏋️</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ gyms.length }}</h3>
+          <p class="stat-label">Tổng số Gym</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📍</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ getActiveGyms() }}</h3>
+          <p class="stat-label">Gym Hoạt Động</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⚙️</div>
+        <div class="stat-content">
+          <h3 class="stat-number">{{ getTotalEquipment() }}</h3>
+          <p class="stat-label">Thiết Bị</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gym List -->
+    <div class="gym-list" *ngIf="gyms.length">
+      <div class="gym-card" *ngFor="let gym of gyms; trackBy: trackByGymId">
+        <div class="gym-header">
+          <div class="gym-icon">🏋️</div>
+          <div class="gym-info">
+            <h3 class="gym-name">{{ gym.name }}</h3>
+            <p class="gym-address">
+              <mat-icon>location_on</mat-icon>
+              {{ gym.address || 'Chưa có địa chỉ' }}
+            </p>
+          </div>
+          <div class="gym-status">
+            <span class="status-badge active">Hoạt động</span>
+          </div>
+        </div>
+
+        <div class="gym-details">
+          <div class="detail-item">
+            <mat-icon>schedule</mat-icon>
+            <span>Giờ mở cửa: 6:00 - 22:00</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>phone</mat-icon>
+            <span>Liên hệ: {{ gym.phone || 'Chưa có' }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>people</mat-icon>
+            <span>Thành viên: {{ gym.memberCount || 0 }}</span>
+          </div>
+        </div>
+
+        <div class="gym-actions">
+          <button mat-stroked-button color="primary" class="action-btn" (click)="viewEquipment(gym)">
+            <mat-icon>build</mat-icon>
+            Xem Thiết Bị
+          </button>
+          <button mat-stroked-button color="accent" class="action-btn">
+            <mat-icon>edit</mat-icon>
+            Chỉnh Sửa
+          </button>
+          <button mat-stroked-button color="warn" class="action-btn">
+            <mat-icon>delete</mat-icon>
+            Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!gyms.length && !loading">
+      <div class="empty-icon">🏋️</div>
+      <h3 class="empty-title">Chưa có phòng gym nào</h3>
+      <p class="empty-description">
+        Bắt đầu bằng cách tạo phòng gym đầu tiên để quản lý thiết bị và thành viên
+      </p>
+      <button mat-raised-button color="primary" class="empty-action" (click)="goAdd()">
+        <mat-icon>add</mat-icon>
+        Tạo Gym Đầu Tiên
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="loading-text">Đang tải danh sách gym...</p>
+    </div>
+  </div>
+</div>

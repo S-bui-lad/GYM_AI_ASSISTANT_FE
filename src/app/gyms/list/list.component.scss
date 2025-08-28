@@ -1,0 +1,407 @@
+// Gym List Container
+.gym-list-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// Page Header
+.page-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .title-icon {
+      font-size: 2.5rem;
+      color: #667eea;
+    }
+  }
+
+  .page-subtitle {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.add-btn {
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  }
+
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+// Main Content
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+// Stats Section
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .stat-content {
+    flex: 1;
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: #7f8c8d;
+      margin: 0.5rem 0 0 0;
+      font-weight: 500;
+    }
+  }
+}
+
+// Gym List
+.gym-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.gym-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .gym-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .gym-icon {
+      font-size: 2.5rem;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .gym-info {
+      flex: 1;
+
+      .gym-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .gym-address {
+        color: #7f8c8d;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+
+        mat-icon {
+          font-size: 1rem;
+          color: #667eea;
+        }
+      }
+    }
+
+    .gym-status {
+      .status-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        &.active {
+          background: linear-gradient(135deg, #4ade80, #22c55e);
+          color: white;
+          box-shadow: 0 2px 8px rgba(74, 222, 128, 0.3);
+        }
+      }
+    }
+  }
+
+  .gym-details {
+    margin-bottom: 2rem;
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: #7f8c8d;
+      font-size: 0.95rem;
+
+      mat-icon {
+        font-size: 1.1rem;
+        color: #667eea;
+        width: 20px;
+      }
+    }
+  }
+
+  .gym-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .action-btn {
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      min-width: 120px;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      mat-icon {
+        margin-right: 0.5rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    animation: bounce 2s infinite;
+  }
+
+  .empty-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 1rem 0;
+  }
+
+  .empty-description {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+
+  .empty-action {
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+// Loading State
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  .loading-text {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 1rem 0 0 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .header-left {
+    .page-title {
+      font-size: 2rem;
+      justify-content: center;
+    }
+  }
+
+  .main-content {
+    padding: 2rem 1rem;
+  }
+
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .gym-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gym-card {
+    padding: 1.5rem;
+
+    .gym-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+
+      .gym-status {
+        align-self: center;
+      }
+    }
+
+    .gym-actions {
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    padding: 0 1rem;
+  }
+
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .gym-card {
+    padding: 1rem;
+
+    .gym-actions {
+      flex-direction: column;
+
+      .action-btn {
+        width: 100%;
+      }
+    }
+  }
+}

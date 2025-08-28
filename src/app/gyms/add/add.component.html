@@ -1,0 +1,139 @@
+<div class="add-gym-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">add_location</mat-icon>
+          Thêm Phòng Gym Mới
+        </h1>
+        <p class="page-subtitle">Tạo phòng gym mới để quản lý thiết bị và thành viên</p>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" class="back-btn" routerLink="/gyms">
+          <mat-icon>arrow_back</mat-icon>
+          Quay Lại
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="form-container">
+      <div class="form-card">
+        <div class="form-header">
+          <div class="form-icon">🏋️</div>
+          <h2 class="form-title">Thông Tin Phòng Gym</h2>
+          <p class="form-subtitle">Điền đầy đủ thông tin để tạo phòng gym mới</p>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSave()" class="gym-form">
+          <div class="form-section">
+            <h3 class="section-title">
+              <mat-icon>info</mat-icon>
+              Thông Tin Cơ Bản
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    <mat-icon class="field-icon">fitness_center</mat-icon>
+                    Tên Phòng Gym
+                  </mat-label>
+                  <input matInput formControlName="name" placeholder="Nhập tên phòng gym" />
+                  <mat-error *ngIf="form.get('name')?.hasError('required')">
+                    Tên phòng gym là bắt buộc
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    <mat-icon class="field-icon">location_on</mat-icon>
+                    Địa Chỉ
+                  </mat-label>
+                  <input matInput formControlName="address" placeholder="Nhập địa chỉ phòng gym" />
+                  <mat-error *ngIf="form.get('address')?.hasError('required')">
+                    Địa chỉ là bắt buộc
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    <mat-icon class="field-icon">phone</mat-icon>
+                    Số Điện Thoại
+                  </mat-label>
+                  <input matInput formControlName="phone" placeholder="Nhập số điện thoại liên hệ" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">
+              <mat-icon>schedule</mat-icon>
+              Thông Tin Hoạt Động
+            </h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    <mat-icon class="field-icon">access_time</mat-icon>
+                    Giờ Mở Cửa
+                  </mat-label>
+                  <input matInput formControlName="openingHours" placeholder="VD: 6:00 - 22:00" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    <mat-icon class="field-icon">description</mat-icon>
+                    Mô Tả
+                  </mat-label>
+                  <textarea matInput formControlName="description" rows="3" placeholder="Mô tả về phòng gym, dịch vụ, thiết bị..."></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="loading || !form.valid"
+              class="submit-btn"
+            >
+              <mat-icon *ngIf="!loading">save</mat-icon>
+              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+              {{ loading ? 'Đang lưu...' : 'Lưu Phòng Gym' }}
+            </button>
+            
+            <button 
+              mat-stroked-button 
+              type="button" 
+              routerLink="/gyms"
+              class="cancel-btn"
+            >
+              <mat-icon>cancel</mat-icon>
+              Hủy Bỏ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

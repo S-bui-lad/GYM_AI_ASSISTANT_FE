@@ -1,0 +1,154 @@
+<div class="recommend-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">psychology</mat-icon>
+          Gợi Ý Thông Minh
+        </h1>
+        <p class="page-subtitle">Nhận gợi ý thiết bị và bài tập cá nhân hóa dựa trên AI</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="warn" class="get-recommendations-btn" (click)="load()" [disabled]="loading">
+          <mat-icon>{{ loading ? 'hourglass_empty' : 'lightbulb' }}</mat-icon>
+          {{ loading ? 'Đang xử lý...' : 'Lấy Gợi Ý' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Input Section -->
+    <div class="input-section">
+      <div class="input-card">
+        <div class="input-header">
+          <h2 class="input-title">
+            <mat-icon>settings</mat-icon>
+            Tùy Chọn Gợi Ý
+          </h2>
+          <p class="input-subtitle">Chọn phòng gym để nhận gợi ý phù hợp hơn</p>
+        </div>
+
+        <div class="input-form">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>
+                <mat-icon class="field-icon">fitness_center</mat-icon>
+                Phòng Gym (Tùy chọn)
+              </mat-label>
+              <input matInput [(ngModel)]="gymId" name="gymId" placeholder="Nhập ID phòng gym để gợi ý chính xác hơn" />
+              <mat-hint>Để trống để nhận gợi ý chung</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations Section -->
+    <div class="recommendations-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <mat-icon>recommend</mat-icon>
+          Gợi Ý Thiết Bị & Bài Tập
+        </h2>
+        <div class="stats-summary" *ngIf="recs.length">
+          <div class="stat-item">
+            <span class="stat-number">{{ recs.length }}</span>
+            <span class="stat-label">Gợi ý</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getUniqueCategories() }}</span>
+            <span class="stat-label">Danh mục</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getUniqueBrands() }}</span>
+            <span class="stat-label">Thương hiệu</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations List -->
+      <div class="recommendations-list" *ngIf="recs.length">
+        <div class="recommendation-card" *ngFor="let rec of recs; trackBy: trackByRecommendationId">
+          <div class="recommendation-header">
+            <div class="recommendation-icon">🎯</div>
+            <div class="recommendation-info">
+              <h3 class="recommendation-name">{{ rec.name }}</h3>
+              <div class="recommendation-meta">
+                <span class="category-tag">{{ rec.category }}</span>
+                <span class="brand-tag">{{ rec.brand }}</span>
+              </div>
+            </div>
+            <div class="recommendation-score">
+              <div class="score-circle">
+                <span class="score-number">{{ getRecommendationScore(rec) }}</span>
+                <span class="score-label">Điểm</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="recommendation-details">
+            <div class="detail-item">
+              <mat-icon>category</mat-icon>
+              <span>Danh mục: {{ rec.category }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>business</mat-icon>
+              <span>Thương hiệu: {{ rec.brand }}</span>
+            </div>
+            <div class="detail-item" *ngIf="rec.description">
+              <mat-icon>description</mat-icon>
+              <span>{{ rec.description }}</span>
+            </div>
+          </div>
+
+          <div class="recommendation-actions">
+            <button mat-stroked-button color="primary" class="action-btn">
+              <mat-icon>visibility</mat-icon>
+              Xem Chi Tiết
+            </button>
+            <button mat-stroked-button color="accent" class="action-btn">
+              <mat-icon>favorite_border</mat-icon>
+              Lưu Gợi Ý
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!recs.length && !loading">
+        <div class="empty-icon">🎯</div>
+        <h3 class="empty-title">Chưa có gợi ý nào</h3>
+        <p class="empty-description">
+          Bấm nút "Lấy Gợi Ý" để nhận các gợi ý thiết bị và bài tập phù hợp với bạn
+        </p>
+        <button mat-raised-button color="warn" class="empty-action" (click)="load()">
+          <mat-icon>lightbulb</mat-icon>
+          Lấy Gợi Ý Ngay
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state" *ngIf="loading">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p class="loading-text">Đang phân tích và tạo gợi ý cho bạn...</p>
+        <div class="loading-steps">
+          <div class="step-item">
+            <mat-icon>psychology</mat-icon>
+            <span>Phân tích dữ liệu</span>
+          </div>
+          <div class="step-item">
+            <mat-icon>trending_up</mat-icon>
+            <span>Đánh giá phù hợp</span>
+          </div>
+          <div class="step-item">
+            <mat-icon>recommend</mat-icon>
+            <span>Tạo gợi ý</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

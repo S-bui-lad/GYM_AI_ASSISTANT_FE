@@ -1,0 +1,12 @@
+<mat-card>
+  <h3>Thêm thiết bị bằng ảnh (AI)</h3>
+
+  <div>
+    <input type="file" accept="image/*" (change)="onFile($event)" />
+  </div>
+
+  <div style="margin-top:12px;">
+    <button mat-raised-button color="primary" (click)="onUpload()" [disabled]="uploading">Upload & Thêm</button>
+    <button mat-button routerLink="/gyms">Quay lại</button>
+  </div>
+</mat-card>

@@ -1,0 +1,164 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="welcome-section">
+        <h1 class="welcome-title">🏋️ Gym Management</h1>
+        <p class="welcome-subtitle">Chào mừng bạn đến với hệ thống quản lý phòng gym</p>
+      </div>
+      <div class="user-actions">
+        <button mat-raised-button color="warn" class="logout-btn" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="container">
+      <!-- Stats Cards Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon gym-icon">🏋️</div>
+          <div class="stat-content">
+            <h3 class="stat-number">12</h3>
+            <p class="stat-label">Phòng Gym</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon workout-icon">💪</div>
+          <div class="stat-content">
+            <h3 class="stat-number">48</h3>
+            <p class="stat-label">Buổi Tập</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon equipment-icon">🎯</div>
+          <div class="stat-content">
+            <h3 class="stat-number">156</h3>
+            <p class="stat-label">Thiết Bị</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Cards -->
+      <div class="feature-grid">
+        <div class="feature-card gym-card">
+          <div class="card-header">
+            <div class="card-icon">🏋️</div>
+            <h2 class="card-title">Quản Lý Gym</h2>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Quản lý các phòng gym, thiết bị và thông tin chi tiết của từng cơ sở
+            </p>
+            <div class="card-features">
+              <span class="feature-tag">📍 Vị trí</span>
+              <span class="feature-tag">⚙️ Thiết bị</span>
+              <span class="feature-tag">📊 Thống kê</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button mat-raised-button color="primary" class="action-btn primary" routerLink="/gyms">
+              <mat-icon>visibility</mat-icon>
+              Xem Danh Sách
+            </button>
+            <button mat-stroked-button color="primary" class="action-btn secondary" routerLink="/gyms/add">
+              <mat-icon>add</mat-icon>
+              Thêm Gym
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card workout-card">
+          <div class="card-header">
+            <div class="card-icon">💪</div>
+            <h2 class="card-title">Theo Dõi Tập Luyện</h2>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Ghi lại và theo dõi các buổi tập luyện, tiến độ và thành tích của bạn
+            </p>
+            <div class="card-features">
+              <span class="feature-tag">📈 Tiến độ</span>
+              <span class="feature-tag">📅 Lịch sử</span>
+              <span class="feature-tag">🎯 Mục tiêu</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button mat-raised-button color="accent" class="action-btn primary" routerLink="/workouts">
+              <mat-icon>fitness_center</mat-icon>
+              Xem Workouts
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card recommend-card">
+          <div class="card-header">
+            <div class="card-icon">🎯</div>
+            <h2 class="card-title">Gợi Ý Thông Minh</h2>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Nhận gợi ý tập luyện cá nhân hóa dựa trên AI và dữ liệu của bạn
+            </p>
+            <div class="card-features">
+              <span class="feature-tag">🤖 AI</span>
+              <span class="feature-tag">🎯 Cá nhân hóa</span>
+              <span class="feature-tag">📊 Phân tích</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button mat-raised-button color="warn" class="action-btn primary" routerLink="/recommend">
+              <mat-icon>psychology</mat-icon>
+              Nhận Gợi Ý
+            </button>
+          </div>
+        </div>
+
+        <div class="feature-card equipment-card">
+          <div class="card-header">
+            <div class="card-icon">⚙️</div>
+            <h2 class="card-title">Quản Lý Thiết Bị</h2>
+          </div>
+          <div class="card-content">
+            <p class="card-description">
+              Quản lý danh sách thiết bị, bảo trì và trạng thái sử dụng
+            </p>
+            <div class="card-features">
+              <span class="feature-tag">🔧 Bảo trì</span>
+              <span class="feature-tag">📋 Danh sách</span>
+              <span class="feature-tag">✅ Trạng thái</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button mat-raised-button color="primary" class="action-btn primary" routerLink="/equipment">
+              <mat-icon>build</mat-icon>
+              Quản Lý Thiết Bị
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <h3 class="section-title">Thao Tác Nhanh</h3>
+        <div class="quick-buttons">
+          <button mat-fab color="primary" class="quick-btn" routerLink="/gyms/add" matTooltip="Thêm Gym mới">
+            <mat-icon>add_location</mat-icon>
+          </button>
+          <button mat-fab color="accent" class="quick-btn" routerLink="/workouts" matTooltip="Ghi nhận buổi tập">
+            <mat-icon>fitness_center</mat-icon>
+          </button>
+          <button mat-fab color="warn" class="quick-btn" routerLink="/recommend" matTooltip="Xem gợi ý">
+            <mat-icon>lightbulb</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

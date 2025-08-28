@@ -1,0 +1,115 @@
+<div class="auth-container">
+  <div class="auth-background">
+    <div class="background-pattern"></div>
+  </div>
+  
+  <div class="auth-content">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo-section">
+          <div class="logo-icon">🏋️</div>
+          <h1 class="app-title">Gym Management</h1>
+        </div>
+        <h2 class="auth-title">Đăng Ký</h2>
+        <p class="auth-subtitle">Tạo tài khoản mới để bắt đầu hành trình tập luyện của bạn</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onRegister()" class="auth-form">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">person</mat-icon>
+              Họ tên
+            </mat-label>
+            <input matInput formControlName="name" placeholder="Nhập họ tên của bạn" />
+            <mat-error *ngIf="form.get('name')?.hasError('required')">
+              Họ tên là bắt buộc
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">email</mat-icon>
+              Email
+            </mat-label>
+            <input matInput formControlName="email" type="email" placeholder="Nhập email của bạn" />
+            <mat-error *ngIf="form.get('email')?.hasError('required')">
+              Email là bắt buộc
+            </mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">
+              Email không hợp lệ
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">lock</mat-icon>
+              Mật khẩu
+            </mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Nhập mật khẩu" />
+            <mat-error *ngIf="form.get('password')?.hasError('required')">
+              Mật khẩu là bắt buộc
+            </mat-error>
+            <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+              Mật khẩu phải có ít nhất 6 ký tự
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">admin_panel_settings</mat-icon>
+              Vai trò
+            </mat-label>
+            <mat-select formControlName="role" placeholder="Chọn vai trò">
+              <mat-option value="MEMBER">
+                <div class="role-option">
+                  <mat-icon>person</mat-icon>
+                  <span>Thành viên</span>
+                </div>
+              </mat-option>
+              <mat-option value="MANAGER">
+                <div class="role-option">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  <span>Quản lý</span>
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('role')?.hasError('required')">
+              Vai trò là bắt buộc
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="loading || !form.valid"
+            class="submit-btn"
+          >
+            <mat-icon *ngIf="!loading">person_add</mat-icon>
+            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            {{ loading ? 'Đang đăng ký...' : 'Đăng Ký' }}
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          <p class="login-link">
+            Đã có tài khoản? 
+            <a routerLink="/login" class="link-btn">
+              <mat-icon>login</mat-icon>
+              Đăng nhập ngay
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

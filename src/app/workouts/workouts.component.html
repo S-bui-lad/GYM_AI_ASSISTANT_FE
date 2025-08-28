@@ -1,0 +1,166 @@
+<div class="workouts-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="page-title">
+          <mat-icon class="title-icon">fitness_center</mat-icon>
+          Quản Lý Buổi Tập
+        </h1>
+        <p class="page-subtitle">Ghi lại và theo dõi các buổi tập luyện của bạn</p>
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="accent" class="quick-add-btn" (click)="showQuickAdd = !showQuickAdd">
+          <mat-icon>{{ showQuickAdd ? 'close' : 'add' }}</mat-icon>
+          {{ showQuickAdd ? 'Đóng' : 'Ghi Nhanh' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Quick Add Form -->
+    <div class="quick-add-section" *ngIf="showQuickAdd">
+      <div class="form-card">
+        <div class="form-header">
+          <h2 class="form-title">
+            <mat-icon>add_circle</mat-icon>
+            Ghi Nhanh Buổi Tập
+          </h2>
+          <p class="form-subtitle">Điền thông tin để ghi lại buổi tập mới</p>
+        </div>
+
+        <form class="workout-form">
+          <div class="form-row">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>
+                  <mat-icon class="field-icon">fitness_center</mat-icon>
+                  Phòng Gym
+                </mat-label>
+                <input matInput [(ngModel)]="form.gym" name="gymId" placeholder="Nhập ID phòng gym" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>
+                  <mat-icon class="field-icon">build</mat-icon>
+                  Thiết Bị
+                </mat-label>
+                <input matInput [(ngModel)]="form.items[0].equipment" name="eqId" placeholder="Nhập ID thiết bị" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-row exercise-details">
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>
+                  <mat-icon class="field-icon">repeat</mat-icon>
+                  Số Hiệp
+                </mat-label>
+                <input matInput type="number" [(ngModel)]="form.items[0].sets" name="sets" placeholder="3" />
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>
+                  <mat-icon class="field-icon">fitness_center</mat-icon>
+                  Số Lần Lặp
+                </mat-label>
+                <input matInput type="number" [(ngModel)]="form.items[0].reps" name="reps" placeholder="12" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" class="save-btn" (click)="create()">
+              <mat-icon>save</mat-icon>
+              Lưu Buổi Tập
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Workout History -->
+    <div class="history-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <mat-icon>history</mat-icon>
+          Lịch Sử Buổi Tập
+        </h2>
+        <div class="stats-summary" *ngIf="workouts.length">
+          <div class="stat-item">
+            <span class="stat-number">{{ workouts.length }}</span>
+            <span class="stat-label">Buổi tập</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getTotalExercises() }}</span>
+            <span class="stat-label">Bài tập</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getTotalSets() }}</span>
+            <span class="stat-label">Hiệp tập</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workout List -->
+      <div class="workout-list" *ngIf="workouts.length">
+        <div class="workout-card" *ngFor="let workout of workouts; trackBy: trackByWorkoutId">
+          <div class="workout-header">
+            <div class="workout-date">
+              <div class="date-icon">
+                <mat-icon>event</mat-icon>
+              </div>
+              <div class="date-info">
+                <h3 class="workout-title">Buổi tập {{ workout.startedAt | date:'dd/MM/yyyy' }}</h3>
+                <p class="workout-time">{{ workout.startedAt | date:'HH:mm' }}</p>
+              </div>
+            </div>
+            <div class="workout-status">
+              <span class="status-badge completed">Hoàn thành</span>
+            </div>
+          </div>
+
+          <div class="workout-exercises">
+            <div class="exercise-item" *ngFor="let item of workout.items; let i = index">
+              <div class="exercise-icon">💪</div>
+              <div class="exercise-info">
+                <h4 class="exercise-name">{{ item.equipment?.name || item.equipment }}</h4>
+                <div class="exercise-details">
+                  <span class="detail-tag">
+                    <mat-icon>repeat</mat-icon>
+                    {{ item.sets }} hiệp
+                  </span>
+                  <span class="detail-tag">
+                    <mat-icon>fitness_center</mat-icon>
+                    {{ item.reps }} lần
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!workouts.length">
+        <div class="empty-icon">💪</div>
+        <h3 class="empty-title">Chưa có buổi tập nào</h3>
+        <p class="empty-description">
+          Bắt đầu ghi lại buổi tập đầu tiên để theo dõi tiến độ của bạn
+        </p>
+        <button mat-raised-button color="primary" class="empty-action" (click)="showQuickAdd = true">
+          <mat-icon>add</mat-icon>
+          Ghi Buổi Tập Đầu Tiên
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

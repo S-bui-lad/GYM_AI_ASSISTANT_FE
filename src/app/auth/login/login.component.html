@@ -1,0 +1,73 @@
+<div class="auth-container">
+  <div class="auth-background">
+    <div class="background-pattern"></div>
+  </div>
+  
+  <div class="auth-content">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo-section">
+          <div class="logo-icon">🏋️</div>
+          <h1 class="app-title">Gym Management</h1>
+        </div>
+        <h2 class="auth-title">Đăng Nhập</h2>
+        <p class="auth-subtitle">Chào mừng bạn trở lại! Vui lòng đăng nhập để tiếp tục</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onLogin()" class="auth-form">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">email</mat-icon>
+              Email
+            </mat-label>
+            <input matInput formControlName="email" type="email" placeholder="Nhập email của bạn" />
+            <mat-error *ngIf="form.get('email')?.hasError('required')">
+              Email là bắt buộc
+            </mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">
+              Email không hợp lệ
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>
+              <mat-icon class="field-icon">lock</mat-icon>
+              Mật khẩu
+            </mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Nhập mật khẩu" />
+            <mat-error *ngIf="form.get('password')?.hasError('required')">
+              Mật khẩu là bắt buộc
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="loading || !form.valid"
+            class="submit-btn"
+          >
+            <mat-icon *ngIf="!loading">login</mat-icon>
+            <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            {{ loading ? 'Đang đăng nhập...' : 'Đăng Nhập' }}
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          <p class="register-link">
+            Chưa có tài khoản? 
+            <a routerLink="/register" class="link-btn">
+              <mat-icon>person_add</mat-icon>
+              Đăng ký ngay
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
