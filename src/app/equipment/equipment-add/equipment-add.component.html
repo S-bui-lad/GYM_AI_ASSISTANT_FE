@@ -1,12 +1,69 @@
 <mat-card>
-  <h3>Thêm thiết bị bằng ảnh (AI)</h3>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon class="title-icon">add_a_photo</mat-icon>
+      Thêm thiết bị bằng ảnh (AI)
+    </mat-card-title>
+    <mat-card-subtitle>
+      Upload ảnh thiết bị để AI tự động nhận diện và thêm vào hệ thống
+    </mat-card-subtitle>
+  </mat-card-header>
 
-  <div>
-    <input type="file" accept="image/*" (change)="onFile($event)" />
-  </div>
+  <mat-card-content>
+    <!-- File Upload Section -->
+    <div class="upload-section">
+      <div class="file-input-wrapper">
+        <input 
+          type="file" 
+          accept="image/*" 
+          (change)="onFile($event)" 
+          id="fileInput"
+          class="file-input"
+        />
+        <label for="fileInput" class="file-input-label">
+          <mat-icon>cloud_upload</mat-icon>
+          <span>Chọn ảnh thiết bị</span>
+        </label>
+      </div>
 
-  <div style="margin-top:12px;">
-    <button mat-raised-button color="primary" (click)="onUpload()" [disabled]="uploading">Upload & Thêm</button>
-    <button mat-button routerLink="/gyms">Quay lại</button>
-  </div>
+      <!-- Image Preview -->
+      <div class="image-preview" *ngIf="imagePreview">
+        <img [src]="imagePreview" [alt]="'Preview'" />
+        <div class="image-info">
+          <p><strong>Tên file:</strong> {{ file?.name }}</p>
+          <p><strong>Kích thước:</strong> {{ getFileSize(file?.size) }}</p>
+        </div>
+      </div>
+
+      <!-- Upload Progress -->
+      <div class="upload-progress" *ngIf="uploading">
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+        <p>Đang xử lý ảnh và nhận diện AI...</p>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onUpload()" 
+      [disabled]="uploading || !file"
+      class="upload-btn"
+    >
+      <mat-icon *ngIf="!uploading">cloud_upload</mat-icon>
+      <mat-spinner *ngIf="uploading" diameter="20"></mat-spinner>
+      {{ uploading ? 'Đang xử lý...' : 'Upload & Thêm thiết bị' }}
+    </button>
+    
+    <button 
+      mat-stroked-button 
+      routerLink="/gyms" 
+      [disabled]="uploading"
+      class="back-btn"
+    >
+      <mat-icon>arrow_back</mat-icon>
+      Quay lại
+    </button>
+  </mat-card-actions>
 </mat-card>

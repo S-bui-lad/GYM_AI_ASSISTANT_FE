@@ -65,4 +65,45 @@ export class EquipmentListComponent implements OnInit {
     const categories = new Set(this.items.map(item => item.category).filter(Boolean));
     return categories.size;
   }
+
+  // Validate image URL
+  isValidImageUrl(url?: string): boolean {
+    if (!url) return false;
+    try {
+      const urlObj = new URL(url);
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  }
+
+  // Handle image load error
+  onImageError(event: any, item: any) {
+    console.warn(`Failed to load image for equipment: ${item.name}`, event);
+    // You could set a flag here to show fallback UI
+  }
+
+  // Get image count for display
+  getImageCount(item: any): number {
+    return item.images?.length || 0;
+  }
+
+  // Check if item has valid images
+  hasValidImages(item: any): boolean {
+    return this.getImageCount(item) > 0 && this.isValidImageUrl(item.images[0]);
+  }
+
+  // Open image modal
+  openImageModal(item: any) {
+    if (this.hasValidImages(item)) {
+      // For now, we'll just log the images
+      // In a real app, you might want to use a modal service or dialog
+      console.log('Equipment images:', item.images);
+      console.log('Equipment name:', item.name);
+      
+      // You could implement a modal here using Angular Material Dialog
+      // or a third-party lightbox library
+      this.snack.open(`Xem ảnh: ${item.name} (${item.images.length} ảnh)`, 'OK', { duration: 2000 });
+    }
+  }
 }

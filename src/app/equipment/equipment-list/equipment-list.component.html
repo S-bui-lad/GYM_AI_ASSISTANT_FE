@@ -49,10 +49,20 @@
     <div class="equipment-list" *ngIf="items.length">
       <div class="equipment-card" *ngFor="let item of items; trackBy: trackByEquipmentId">
         <div class="equipment-image">
-          <img *ngIf="item.images?.length" [src]="item.images[0]" [alt]="item.name" />
-          <div *ngIf="!item.images?.length" class="no-image">
+          <img 
+            *ngIf="item.images?.length && isValidImageUrl(item.images[0])" 
+            [src]="item.images[0]" 
+            [alt]="item.name"
+            (error)="onImageError($event, item)"
+            (click)="openImageModal(item)"
+            class="equipment-img clickable"
+          />
+          <div *ngIf="!item.images?.length || !isValidImageUrl(item.images?.[0])" class="no-image">
             <mat-icon>image</mat-icon>
-            <span>Chưa có hình</span>
+            <span>{{ !item.images?.length ? 'Chưa có hình' : 'Lỗi tải ảnh' }}</span>
+          </div>
+          <div class="image-overlay" *ngIf="item.images?.length > 1">
+            <span class="image-count">+{{ item.images.length - 1 }}</span>
           </div>
         </div>
         
