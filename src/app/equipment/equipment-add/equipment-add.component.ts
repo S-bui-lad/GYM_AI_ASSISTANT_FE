@@ -48,6 +48,7 @@ export class EquipmentAddComponent {
     this.api.addEquipmentByImage(this.gymId, this.file).subscribe({
       next: (res) => {
         this.snack.open('Upload & AI done', 'OK', { duration: 2000 });
+        console.log(res);
         this.router.navigate([`/gyms/${this.gymId}/equipment`]);
       },
       error: (err) => {

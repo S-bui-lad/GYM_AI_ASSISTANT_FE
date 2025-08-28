@@ -32,7 +32,7 @@ export class ApiService {
   addEquipmentByImage(gymId: string, file: File): Observable<any> {
     const fd = new FormData();
     fd.append('image', file, file.name);
-    return this.http.post(`${this.base}/equipment/gyms/${gymId}/auto-add`, fd);
+    return this.http.post(`${this.base}/equipment/gyms/${gymId}/with-image`, fd);
   }
   addEquipmentManual(gymId: string, payload: any): Observable<any> {
     return this.http.post(`${this.base}/equipment/gyms/${gymId}`, payload);

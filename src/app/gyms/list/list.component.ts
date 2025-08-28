@@ -36,10 +36,14 @@ export class GymsListComponent implements OnInit {
   load() {
     this.loading = true;
     this.api.getGyms().subscribe({
-      next: (res) => (this.gyms = res || []),
+      next: (res) => (this.gyms = res.data || []),
       error: (err) => this.snack.open('Lỗi tải gym', 'OK', { duration: 2000 }),
       complete: () => (this.loading = false)
     });
+  }
+
+  goBack(){
+    this.router.navigate(['/dashboard']);
   }
 
   goAdd() {

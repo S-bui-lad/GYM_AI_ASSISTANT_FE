@@ -30,4 +30,10 @@ export class DashboardComponent {
     this.token.clear();
     this.router.navigate(['/login']);
   }
+
+  goAddWorkout(){
+    this.router.navigate(['/workouts']);
+  }
+
+  
 }

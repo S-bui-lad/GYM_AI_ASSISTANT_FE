@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -43,6 +43,10 @@ export class GymAddComponent implements OnInit {
       openingHours: [''],
       description: ['']
     });
+  }
+
+  goBack(){
+    this.router.navigate(['/gyms']);
   }
 
   onSave() {
