@@ -1,25 +1,41 @@
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import './styles/theme';
 
 html, body {
   height: 100%;
   margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin-bottom: var(--spacing-4);
+  color: var(--color-text);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-4);
+}
+
+.full {
+  width: 100%;
 }
 
 mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 5;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
+button[mat-button], button[mat-raised-button], button[mat-stroked-button] {
+  text-transform: none;
+  border-radius: 8px;
+  padding: var(--spacing-2) var(--spacing-4);
 }
 
-.full { 
-  width: 100%; 
-}
-
-body { 
-  font-family: Roboto, "Helvetica Neue", sans-serif; 
-}

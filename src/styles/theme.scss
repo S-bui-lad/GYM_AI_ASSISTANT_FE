@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap");
+:root {
+  --color-primary: #6366F1; /* Indigo 500 */
+  --color-secondary: #8B5CF6; /* Purple 500 */
+  --color-accent: #10B981; /* Emerald 500 */
+  --color-background: #F9FAFB; /* Gray 50 */
+  --color-surface: #FFFFFF;
+  --color-text: #111827; /* Gray 900 */
+
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+}
